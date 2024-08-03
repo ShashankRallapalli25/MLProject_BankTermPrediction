@@ -6,8 +6,12 @@ import sys
 #from src.exception import CustomException
 from dataclasses import dataclass
 from scipy import stats
-#from src.components.data_transformation import DataTransformation
-#from data_transformation import DataTransformationConfig
+
+# Add the src directory to the Python path
+sys.path.append(os.path.join(os.getcwd(), "src"))
+
+from src.components.data_transformation import DataTransformation
+from data_transformation import DataTransformationConfig
 
 @dataclass
 class DataLoadConfig:
@@ -28,7 +32,7 @@ class DataLoad:
 
     def initiate_data_ingestion(self):
             df=pd.read_csv("notebook/data/bank-full.csv", delimiter= ";")
-            print(df.columns)
+            #print(df.columns)
             
             #remove the outliers
             #m_bal = np.mean(df['balance'])
@@ -59,8 +63,10 @@ class DataLoad:
 if __name__ == "__main__":
     obj = DataLoad()
     train_data, test_data = obj.initiate_data_ingestion()
+    #print("Current Working Directory:", os.getcwd())
 
-    #data_transformation = DataTransformation()
-    #train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data,test_data)
+    data_transformation = DataTransformation()
+    train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data,test_data)
+    #print(dir(data_transformation)) 
 
     

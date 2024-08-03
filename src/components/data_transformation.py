@@ -1,4 +1,4 @@
-import sys
+#import sys
 from dataclasses import dataclass
 import numpy as np
 import pandas as pd
@@ -8,7 +8,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 import os
 from src.utils import save_object
-from imblearn import FunctionSampler
+#from imblearn import FunctionSampler
 
 @dataclass
 class DataTransformationConfig:
@@ -30,13 +30,13 @@ class DataTransformation:
         #numerical_features  = data[data.columns[idx]]
         numerical_features = ['age', 'balance', 'duration', 'campaign', 'pdays', 'previous']
         categorical_features = ['job', 'marital', 'education', 'default', 
-            'housing', 'loan', 'contact', 'month', 'poutcome', 'Public Holiday']
+            'housing', 'loan', 'contact', 'month', 'poutcome']
         outlier_column = ['balance']
 
         num_pipeline = Pipeline (
                 steps = [
                     ("imputer", SimpleImputer( strategy= "median" )),
-                    ("scaler", MinMaxScaler(with_mean=False))
+                    ("scaler", MinMaxScaler())
                 ]
             )
         cat_pipeline = Pipeline(
@@ -54,20 +54,21 @@ class DataTransformation:
             )
 
         return preprocessor
-def initiate_data_transformation(self, train_path, test_path):
+    
+    def initiate_data_transformation(self, train_path, test_path):
 
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
             preprocessor_obj = self.get_data_transformer_object()
 
-            target_column = "math_score"
+            target_column = "y"
 
             #idx = [0,5,9,11,12,13,14]
             #numerical_features  = train_df.columns[idx]
             numerical_features = ['age', 'balance', 'duration', 'campaign', 'pdays', 'previous']
             categorical_features = ['job', 'marital', 'education', 'default', 
-            'housing', 'loan', 'contact', 'month', 'poutcome', 'Public Holiday']
+            'housing', 'loan', 'contact', 'month', 'poutcome']
             input_train_df = train_df.drop(columns= [target_column],axis=1)
             target_train_df = train_df[target_column]
             input_test_df = test_df.drop(columns= [target_column],axis=1)
